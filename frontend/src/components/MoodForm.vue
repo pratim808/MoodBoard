@@ -1,3 +1,5 @@
+<!-- MoodBoard-master/frontend/src/components/MoodForm.vue -->
+
 <template>
   <form @submit.prevent="submitMood" style="margin-bottom: 20px;">
     <input type="text" v-model="text" placeholder="How are you feeling?" required style="padding: 8px; width: 70%; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;" />
@@ -7,7 +9,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+// CHANGE #1: Import our new central API client instead of axios directly
+import apiClient from '../api';
 
 export default {
   data() {
@@ -27,7 +30,8 @@ export default {
         formData.append('image', this.file);
       }
       try {
-        await axios.post('http://localhost:3000/post', formData, {
+        // CHANGE #2: Use the apiClient to make the request to the relative path
+        await apiClient.post('/post', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
